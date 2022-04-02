@@ -6,7 +6,6 @@ import wikipediaapi
 import re
 import string
 
-
 def format_string(_str) -> str:
     ret = re.sub("\[[0-9a-zA-Z]+\]", "", _str)
     ret = re.sub("\(.+\)", " ", ret)
