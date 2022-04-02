@@ -1,5 +1,6 @@
 from Levenshtein import distance as lev
 import re
+from w2n import word_to_num
 def getClosestString(stringList, result):
 	if result is None:
 		return "ERROR"
@@ -16,4 +17,8 @@ def getYear(res):
 	if r is not None:
 		return r
 	return res
+
+
+def getNumberFromWord(word):
+	return word_to_num(word)
 	
