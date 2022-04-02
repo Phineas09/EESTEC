@@ -14,4 +14,7 @@ In order to install the requirements from the 'requirements.txt' just run
 pip install -r requirements.txt
 ```
 
+//from levensteinDist import getClosestString
+//getClosestString(lista de optiuni, rezultatul retelei)
+
 
