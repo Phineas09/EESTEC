@@ -1,13 +1,17 @@
 from googlesearch import search
 from bs4 import BeautifulSoup as bs
 import requests
+import transformers
 
 # QUESTION = "Who discovered penicillin?"
 QUESTION = "When did Hitler die?"
 # STRING GOL LA QUESTIOn
 
-slist = list(search(QUESTION))
-
+question_answerer = transformers.pipeline('question-answering')
+slist = list(search(QUESTION, num_results=6, lang="en"))
+print(slist)
+print(len(slist))
+exit(0)
 for _link in slist:
     link = requests.get(_link)
     print(link.status_code)
@@ -17,18 +21,20 @@ for _link in slist:
 soup = bs(link.content, "html.parser")
 allp = soup.find_all("p")
 
-# content = link.content
-
-# html = bs(content, "html.parser")
-# print(html.prettify())
-
 f = open("f.html", "w")
-for p in allp:
+answer_list = []
+for idx, p in enumerate(allp):
+    if idx > 3:
+        break
     print(p)
-    f.write(p.text + "-"*20)
-#f.write(allp.text)
-f.close()
+    try:
+        print("Processing..")
+        answer_list.append(question_answerer({
+            'question': QUESTION,
+            'context': p.text
+        }))
+    except:
+        continue
 
-# first_paragraphs = html.body.find_all("p")
-# for p in first_paragraphs:
-#     print(p)
+print(answer_list)
+f.close()
