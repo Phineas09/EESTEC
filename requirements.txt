@@ -1,2 +1,7 @@
 flask
 googlesearch-python
+wikipedia
+googlesearch
+wikipedia-api
+pandas
+lxml
