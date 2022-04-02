@@ -14,9 +14,8 @@ In order to install the requirements from the 'requirements.txt' just run
 pip install -r requirements.txt
 ```
 
-//from levensteinDist import getClosestString, getYear
+//from utils import getClosestString, getYear, getNumberFromWord
 //getClosestString(lista de optiuni, rezultatul retelei)
 //getYear(string)
-//from w2n import word_to_num
-//print(word_to_num('eight'))
+//getNumberFromWord(string)
 
