@@ -40,7 +40,7 @@ class GenericScraper:
                         paragraphText =paragraphText.replace('\n', " ") #
                         paragraphText =paragraphText.replace('\t', " ") #
                         paragraphText = html.unescape(paragraphText)
-                        topParagraphs.append(formatString(paragraphText))
+                        topParagraphs.append(formatString(paragraphText).lower())
         except:
             return topParagraphs
         return topParagraphs
@@ -64,11 +64,12 @@ def Query(question, pipeline):
     pageUrl = search(question, num_results=5)
     pipeline.setQuestionToAnswer(question)
     for url in pageUrl:
-        paragraphList = GenericScraper.getParagraphList(url, 11)
+        paragraphList = GenericScraper.getParagraphList(url, 10)
         #compose = ' '.join(_ for _ in paragraphList)
         #print(paragraphList)
         if (len(paragraphList) == 0):
             continue
+        
         for _ in paragraphList:
             pipeline.setStringToProcess(_)
             #response = pipeline.answerWithSummarization()
@@ -97,7 +98,7 @@ def QueryMultipleChoice(question, choices, pipeline, isNumeric):
     pageUrl = search(question, num_results=5)
     pipeline.setQuestionToAnswer(question)
     for url in pageUrl:
-        paragraphList = GenericScraper.getParagraphList(url, 11)
+        paragraphList = GenericScraper.getParagraphList(url, 10)
         #compose = ' '.join(_ for _ in paragraphList)
         if (len(paragraphList) == 0):
             continue
