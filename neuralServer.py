@@ -5,6 +5,11 @@ from utils import *
 app = Flask(__name__)
 
 pipeline = neuralPipeline.NeuralPipeline()
+
+@app.route("/sanity", methods=['GET'])
+def sanityResponse():
+    return Response("", status=200, mimetype='application/json')
+
 @app.route('/question', methods=['POST'])
 def summary():
     data = request.get_json()
