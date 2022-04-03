@@ -58,13 +58,16 @@ def corectList(responseList):
     print(corectedList)
     return corectedList
 def most_common(lst):
-    return max(set(lst), key=lst.count) or ""
-def Query(question, pipeline):
+    try:
+        return max(set(lst), key=lst.count) or ""
+    except:
+        return "can't determine"
+def Query(question, pipeline, isWho):
     responseList = []
-    pageUrl = search(question, num_results=5)
+    pageUrl = search(question, num_results=8)
     pipeline.setQuestionToAnswer(question)
     for url in pageUrl:
-        paragraphList = GenericScraper.getParagraphList(url, 10)
+        paragraphList = GenericScraper.getParagraphList(url, 4)
         #compose = ' '.join(_ for _ in paragraphList)
         #print(paragraphList)
         if (len(paragraphList) == 0):
@@ -81,24 +84,34 @@ def Query(question, pipeline):
                 continue
         text = ""
         for _ in paragraphList:
-            text += _
+            text += " " + _
             pipeline.setStringToProcess(text)
             try:
                 response = pipeline.answerNoSummarization()
                 responseList.append(response["answer"])
             except:
                 continue
+    
     responseList = corectList(responseList)
+    newList = []
+    for x in responseList:
+        if("error:" in x):
+            continue
+        if(len(x.split(" ")) > 4):
+            continue
+        newList.append(x)
+    responseList = newList
+
     print("Corected List: ")
     print(responseList)
     return most_common(responseList)
     
-def QueryMultipleChoice(question, choices, pipeline, isNumeric):
+def QueryMultipleChoice(question, choices, pipeline, isNumeric, isWho):
     responseList=[]
-    pageUrl = search(question, num_results=5)
+    pageUrl = search(question, num_results=8)
     pipeline.setQuestionToAnswer(question)
     for url in pageUrl:
-        paragraphList = GenericScraper.getParagraphList(url, 10)
+        paragraphList = GenericScraper.getParagraphList(url, 4)
         #compose = ' '.join(_ for _ in paragraphList)
         if (len(paragraphList) == 0):
             continue
@@ -113,14 +126,23 @@ def QueryMultipleChoice(question, choices, pipeline, isNumeric):
             
         text = ""
         for _ in paragraphList:
-            text += _
+            text += " " + _
             pipeline.setStringToProcess(text)
             try:
                 response = pipeline.answerNoSummarization()
                 responseList.append(response["answer"])
             except:
                 continue
+    
     responseList = corectList(responseList)
+    newList = []
+    for x in responseList:
+        if("error:" in x):
+            continue
+        if(len(x.split(" ")) > 4):
+            continue
+        newList.append(x)
+    responseList = newList
     res = most_common(responseList)
     if(isNumeric):
         try:
