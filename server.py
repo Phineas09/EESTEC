@@ -38,6 +38,13 @@ def page_not_found():
                     mimetype='application/json')
 
 
+@app.errorhandler(500)
+def page_not_found():
+    return Response('',
+                    status=200,
+                    mimetype='application/json')
+
+
 '''
         Main function for starting the app
 '''
