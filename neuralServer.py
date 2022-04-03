@@ -20,18 +20,21 @@ def summary():
     question_type = data['question_type']
     answer_choices = data['answer_choices']
     result = {'Error':'Question type not recognized'}
+    isWho = False
+    if(question[0:3].lower() == 'who'):
+        isWho = True;
     if(question_type == 'direct_answer'):
-        result = Query(question, pipeline)
+        result = Query(question, pipeline, isWho)
     elif (question_type == 'multiple_choice'):
         isNumeric = False
         if(answer_type == 'numeric'):
             isNumeric = True
-        result = QueryMultipleChoice(question, answer_choices, pipeline, isNumeric)
+        result = QueryMultipleChoice(question, answer_choices, pipeline, isNumeric, isWho)
         result = result[0]
     else:
         result = {'Error':'Question type not recognized'}
-    if(question[0:3].lower() == 'when'):
-        result = getYear(result)
+    #if(question[0:4].lower() == 'when'):
+    #    result = getYear(result)
     if(answer_type == 'numeric'):
         try:
             result = getNumberFromWord(result)
