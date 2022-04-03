@@ -10,7 +10,7 @@ def getClosestString(stringList, result):
 		if lev(i,result) < minDist:
 			minDist = lev(i,result)
 			minString = i
-	return minString
+	return minString, minDist
 
 def getYear(res):
 	r = re.search('[0-9]{3,4}', res).group(0);
